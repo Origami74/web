@@ -160,8 +160,11 @@ export function validateManifestEvent(event?: NappletManifestEvent | null): Mani
       });
       continue;
     }
+    // NIP-5D leaves the capability check to the shell at load time ("a shell
+    // MAY support any subset of NAPs"), so a domain outside the known list is
+    // an advisory, not a malformed manifest.
     if (!(NAP_DOMAINS as readonly string[]).includes(req)) {
-      errors.push({
+      warnings.push({
         code: 'unknown-required-nap',
         message: `requires tag "${req}" is not a known NAP domain`,
       });

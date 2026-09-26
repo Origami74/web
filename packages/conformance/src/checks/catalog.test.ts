@@ -70,6 +70,15 @@ describe('manifest checks', () => {
     });
     expect(run('manifest/requires', badRequire).status).toBe('fail');
   });
+
+  it('reports an unknown requires domain as a warning-severity finding only', () => {
+    const ctx = makeContext({
+      manifestEvent: { ...goodEvent, tags: [...goodEvent.tags, ['requires', 'mesh']] },
+    });
+    expect(run('manifest/requires', ctx).status).toBe('pass');
+    expect(run('manifest/requires-known', ctx).status).toBe('fail');
+    expect(CHECKS.find((c) => c.id === 'manifest/requires-known')?.severity).toBe('warning');
+  });
 });
 
 describe('boot checks', () => {
