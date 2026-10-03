@@ -60,12 +60,12 @@ export const SHELLS: ShowcaseItem[] = [
   {
     id: 'soy', name: 'napplet.soy', category: 'Play & discover',
     description: 'A playground for tiny games, digital experiments, and things people made just because they could.',
-    href: 'https://napplet.soy/', source: 'https://github.com/zeSchlausKwab/napplet-soy',
+    href: 'https://napplet.soy/', source: 'https://github.com/zeSchlausKwab/napplet-soy', image: '/showcase/images/shell-soy.webp',
   },
   {
     id: 'paja', name: 'Paja', category: 'Develop & inspect',
     description: 'Kehto’s developer shell. Load a published napplet, inspect its behavior, and explore the runtime behind it.',
-    href: 'https://kehto.github.io/web/paja/', source: 'https://github.com/kehto/web/tree/main/packages/paja',
+    href: 'https://kehto.github.io/web/paja/', source: 'https://github.com/kehto/web/tree/main/packages/paja', image: '/showcase/images/shell-paja.webp',
   },
 ];
 

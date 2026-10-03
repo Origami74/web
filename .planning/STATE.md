@@ -19,6 +19,10 @@ progress:
 
 # Project State
 
+## Quick task 261003-isf — VERIFYING
+
+Astro ecosystem showcase implemented on `feat/astro-ecosystem-showcase`. Local build, type, unit, tutorial, browser, links, SEO/accessibility, and Bunny artifact checks pass. Awaiting PR CI. Evidence: `.planning/quick/261003-isf-astro-ecosystem-showcase-with-extracted-/SUMMARY.md`.
+
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-05-24 after v0.31.0 archive)

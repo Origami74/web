@@ -43,10 +43,10 @@ export function initShowcaseAnimations(): () => void {
           .from('.stack-connector i', { scaleY: 0, stagger: 0.15 }, 0.15);
       }
       if (section.id === 'shells') {
-        // Each host arranges the same small apps inside its own shell frame.
-        section.querySelectorAll<HTMLElement>('.shell-miniature').forEach(shell => {
-          gsap.from(shell.querySelectorAll('.mini-tiles i'), {
-            y: 20, scale: 0.85, stagger: 0.15, duration: 0.7,
+        // Reveal each real workspace inside its shell frame.
+        section.querySelectorAll<HTMLElement>('.shell-preview').forEach(shell => {
+          gsap.from(shell.querySelectorAll('img'), {
+            y: 18, scale: 0.96, duration: 0.7,
             ease: 'power3.out', clearProps: 'transform',
             scrollTrigger: { trigger: shell, start: 'top 85%', once: true },
           });
