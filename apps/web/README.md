@@ -1,0 +1,55 @@
+# napplet website
+
+The Astro homepage introduces napplets and showcases runnable apps, shells, protocol status, napplet authoring tools, and shell development tools. The original Svelte explainer remains at `/explainer/`. Astro renders the homepage content into static HTML; Svelte hydrates the explainer, while GSAP adds section reveals that respect reduced-motion preferences.
+
+## Develop
+
+From the repository root:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @napplet/web dev
+# Or run the website and documentation together:
+pnpm dev:site
+```
+
+The development server proxies `/docs` to the local documentation server. Production uses static files with directory indexes, so the site needs no application server or SPA fallback.
+
+## Curate
+
+Edit `src/lib/showcase.ts` to change the selected napplets, shells, and developer tools. Keep names, descriptions, source links, and destinations tied to maintained projects. Editorial descriptions are non-normative; protocol status and requirements defer to the living [NIP-5D proposal](https://github.com/nostr-protocol/nips/pull/2303) and [NAPs track](https://github.com/napplet/naps).
+
+Playable entries point to locally mirrored signed manifests and their original artifact bytes. Preserve the publisher's signature and content hashes when adding or refreshing a selection; editing the downloaded HTML invalidates verification. The player verifies each signed manifest and artifact before execution. Its loader derives from the MIT-licensed [napplet.soy source](https://github.com/zeSchlausKwab/napplet-soy); retain the accompanying attribution when changing that implementation. A curated preview is a limited host for these selections, not a claim that the site implements every NAP.
+
+## Verify the deployed artifact
+
+Run from the repository root. Build conformance with its deployment base after the workspace build, since the default build uses a different asset path.
+
+```bash
+pnpm build
+pnpm type-check
+pnpm -r test:unit
+pnpm --filter @napplet/web build
+pnpm --filter @napplet/docs build
+pnpm --filter @napplet/conformance-web build --base=/conformance/
+node --test scripts/assemble-site.test.mjs
+node scripts/assemble-site.mjs
+pnpm exec playwright install chromium
+pnpm test:spa-onboarding
+python3 -m http.server 8099 --directory site
+```
+
+With that static server running, use another terminal:
+
+```bash
+node scripts/check-links.mjs http://localhost:8099
+node scripts/check-showcase.mjs http://localhost:8099
+```
+
+The onboarding check starts its own Astro development server and exercises the preserved `/explainer/#start` flow. The showcase check exercises the assembled production site. Inspect desktop and mobile output when changing layout or animation.
+
+## Deployment
+
+`scripts/assemble-site.mjs` is shared by the deployment and link-check workflows. It places the homepage at `/`, the explainer at `/explainer/`, documentation at `/docs/`, and the conformance runtime at `/conformance/`. It checks for social artwork, robots and sitemap files, verifies the installer copies, and rejects conformance HTML built with the wrong base before replacing the previous artifact.
+
+The deployment workflow uploads the resulting `site/` directory to Bunny storage and purges the pull zone. Bunny is the canonical deployment; nsite is an optional mirror. The existing Bunny storage zone, endpoint, password, API key, and pull-zone ID remain GitHub Actions secrets. Website, docs, conformance, lockfile, or assembly changes trigger deployment after merging to `main` and trigger the corresponding pull-request link check. Configure credentials with `scripts/setup-site-secrets.sh`.

@@ -4,17 +4,25 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "type-check": "svelte-check --tsconfig ./tsconfig.json"
+    "dev": "astro dev --host 127.0.0.1 --port 5173",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "type-check": "astro check && svelte-check --tsconfig ./tsconfig.json",
+    "test:unit": "vitest run"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/svelte": "^9.0.1",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tsconfig/svelte": "^5.0.4",
+    "astro": "^7.3.5",
+    "gsap": "^3.15.0",
+    "nostr-tools": "^2.23.3",
     "svelte": "^5.19.0",
     "svelte-check": "^4.1.4",
     "typescript": "^5.9.3",
-    "vite": "^6.4.3"
+    "vite": "^8.3.2",
+    "vitest": "^4.1.11"
   }
 }
