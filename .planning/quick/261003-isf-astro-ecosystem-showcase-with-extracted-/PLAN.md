@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: complete
 description: Replace the marketing homepage with an Astro ecosystem showcase and verified in-page runner.
 ---
 

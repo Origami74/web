@@ -19,9 +19,9 @@ progress:
 
 # Project State
 
-## Quick task 261003-isf — VERIFYING
+## Quick task 261003-isf — COMPLETE
 
-Astro ecosystem showcase implemented on `feat/astro-ecosystem-showcase`. Local build, type, unit, tutorial, browser, links, SEO/accessibility, and Bunny artifact checks pass. Awaiting PR CI. Evidence: `.planning/quick/261003-isf-astro-ecosystem-showcase-with-extracted-/SUMMARY.md`.
+Astro ecosystem showcase implemented on `feat/astro-ecosystem-showcase`. Local build, type, unit, tutorial, browser, links, SEO/accessibility, and Bunny artifact checks pass. PR #221 is open and mergeable; hosted CI, conformance, link/browser, and AI-slop checks pass. Evidence: `.planning/quick/261003-isf-astro-ecosystem-showcase-with-extracted-/SUMMARY.md`.
 
 ## Project Reference
 

@@ -1,5 +1,5 @@
 ---
-status: verifying
+status: complete
 ---
 
 # Astro ecosystem showcase
@@ -29,4 +29,11 @@ Bunny and link-check share one artifact assembler. Literal static routes, docs, 
 
 ## Completion audit
 
-All requested content, original-page preservation, runnable curated apps, shell/tool curation, Astro/SEO, responsive viewport sections, shared visual style and GSAP sequences have direct source and browser evidence. Final remaining step: push PR and verify hosted checks/mergeability. Production deployment itself follows merge, as requested by the ready-to-merge stop condition.
+All requested content, original-page preservation, runnable curated apps, shell/tool curation, Astro/SEO, responsive viewport sections, shared visual style and GSAP sequences have direct source and browser evidence. PR [#221](https://github.com/napplet/web/pull/221) is open and mergeable. Hosted CI, conformance, link/browser verification and AI-slop checks passed on c920bd23. Live Bunny root and directory routes return 200, and response headers impose no inherited CSP that would block the preview. Production deployment follows merge, as requested by the ready-to-merge stop condition. This final documentation commit changes no shipped output.
+
+## Hosted evidence
+
+- [CI](https://github.com/napplet/web/actions/runs/37146498012) — passed.
+- [Conformance](https://github.com/napplet/web/actions/runs/37146498022) — passed.
+- [Link and browser checks](https://github.com/napplet/web/actions/runs/37146498000) — passed on the assembled static artifact.
+- [AI-slop](https://github.com/napplet/web/actions/runs/37146498041) — passed.
