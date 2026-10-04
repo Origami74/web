@@ -62,10 +62,12 @@ export async function collectProtocol(client, checkedAt = new Date().toISOString
       if (file.status === 'removed') {
         // The diff's blob remains available even if the default branch has
         // already removed or changed the document since this PR was opened.
-        return { path: file.filename, status: file.status, content: await client.blob(repository, file.sha) };
+        if (!file.blob_url) throw new Error(`Missing original document URL for removed file: ${file.filename}`);
+        return { path: file.filename, status: file.status, documentUrl: file.blob_url, content: await client.blob(repository, file.sha) };
       }
       if (!pull.head.repo) throw new Error(`Missing head repository for PR #${pull.number}`);
-      return { path: file.filename, status: file.status, content: await client.blob(pull.head.repo.full_name, file.sha) };
+      const documentUrl = `https://github.com/${pull.head.repo.full_name}/blob/${pull.head.sha}/${file.filename}`;
+      return { path: file.filename, status: file.status, documentUrl, content: await client.blob(pull.head.repo.full_name, file.sha) };
     });
     // Recheck the PR after reading file blobs so a concurrently updated/closed PR cannot silently mix revisions.
     if (specs.length) {

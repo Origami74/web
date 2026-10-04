@@ -16,7 +16,7 @@ const checked = new Date(data.checkedAt).toLocaleDateString('en-US', { dateStyle
   </header>
   <main id="main" class="protocol-main"><slot /></main>
   <footer class="protocol-footer">
-    <p>A non-normative guide to the living <a href={data.repository}>NAP specifications</a>. GitHub is the source of truth; merged does not mean final or universally implemented.</p>
+    <p>Full source documents and a non-normative directory of the living <a href={data.repository}>NAP specifications</a>. GitHub is the source of truth; merged does not mean final or universally implemented.</p>
     <p>Checked <time datetime={data.checkedAt}>{checked} (UTC)</time> · <a href={`${data.repository}/commit/${data.commit}`}>Registry revision {data.commit.slice(0, 7)}</a> · <a href="/">Back to the ecosystem</a></p>
   </footer>
 </SiteLayout>

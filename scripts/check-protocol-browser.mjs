@@ -6,6 +6,7 @@ const base = process.argv[2] ?? 'http://127.0.0.1:8100';
 const data = JSON.parse(await readFile(new URL('../apps/web/src/data/protocol.json', import.meta.url), 'utf8'));
 const merged = data.entries.find(entry => entry.state === 'merged');
 const deferred = data.entries.find(entry => entry.registryStatus?.toLowerCase() === 'deferred');
+const longSpec = data.entries.find(entry => entry.id === 'NAP-BLOSSOM') ?? data.entries.reduce((a, b) => a.markdown.length > b.markdown.length ? a : b);
 const screenshots = '/tmp/napplet-protocol-screenshots';
 await mkdir(screenshots, { recursive: true });
 const browser = await chromium.launch();
@@ -29,6 +30,14 @@ try {
     assert.ok(await page.getByRole('link', { name: 'Read specification on GitHub' }).isVisible());
     assert.ok(await page.locator('.state-merged').isVisible());
     await page.screenshot({ path: `${screenshots}/${width}-detail.png`, fullPage: true });
+    await page.goto(`${base}/protocol/${longSpec.slug}/`, { waitUntil: 'networkidle' });
+    assert.ok(await page.locator('.spec-body table').count() > 0);
+    assert.ok(await page.locator('.spec-body pre').count() > 0);
+    await page.locator('.spec-contents a').last().click();
+    const target = await page.locator('.spec-contents a').last().getAttribute('href');
+    await page.waitForFunction(selector => { const rect = document.querySelector(selector).getBoundingClientRect(); return rect.top >= 0 && rect.top < innerHeight; }, target);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}: long specification overflow`);
+    await page.screenshot({ path: `${screenshots}/${width}-specification.png`, fullPage: true });
     for (const route of ['/protocol/', ...(deferred ? [`/protocol/${deferred.slug}/`] : []), '/protocol/contribute/']) {
       await page.goto(`${base}${route}`, { waitUntil: 'networkidle' });
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}: ${route} page overflow`);

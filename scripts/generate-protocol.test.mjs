@@ -75,6 +75,8 @@ test('repository merge state, document marker and registry status remain indepen
   assert.equal(data.entries[0].declaredStatus, 'draft');
   assert.equal(data.entries[0].registryStatus, 'Draft');
   assert.equal(data.entries[0].sourceUrl, 'https://github.com/napplet/naps/blob/master/naps/NAP-IDENTITY.md');
+  assert.equal(data.entries[0].markdown, identity);
+  assert.equal(data.entries[0].documentUrl, 'https://github.com/napplet/naps/blob/a040914/naps/NAP-IDENTITY.md');
   assert.deepEqual(data.contribution.prSections, ['Summary', 'Changes', 'Downstream']);
 });
 
@@ -126,7 +128,7 @@ function upstream({ truncated = false, moved = false, failed = false, removed = 
       return { ...pull, state: moved ? 'closed' : 'open' };
     },
     async list(endpoint) {
-      return endpoint.includes('/files') ? [{ filename: 'naps/NAP-BLE.md', sha: 'ble', status: removed ? 'removed' : 'added' }] : [pull];
+      return endpoint.includes('/files') ? [{ filename: 'naps/NAP-BLE.md', sha: 'ble', blob_url: 'https://github.com/napplet/naps/blob/old-base/naps/NAP-BLE.md', status: removed ? 'removed' : 'added' }] : [pull];
     },
     async blob(repo, sha) {
       requested.push(`${repo}/${sha}`);
@@ -141,6 +143,8 @@ test('reads fork blobs and rechecks proposal state; rejects truncated or moving 
   const data = await collectProtocol(client, checkedAt);
   assert.equal(data.entries.length, 2);
   assert.ok(client.requested.includes('contributor/naps/ble'));
+  assert.equal(data.entries.find(entry => entry.pr === 62).markdown, ble);
+  assert.equal(data.entries.find(entry => entry.pr === 62).documentUrl, 'https://github.com/contributor/naps/blob/ble-head/naps/NAP-BLE.md');
   await assert.rejects(collectProtocol(upstream({ truncated: true })), /truncated/);
   await assert.rejects(collectProtocol(upstream({ moved: true })), /changed during refresh/);
 });
@@ -161,6 +165,8 @@ test('a removal proposal uses its diff blob even when the file no longer exists 
   const client = upstream({ removed: true });
   const data = await collectProtocol(client, checkedAt);
   assert.equal(data.entries.find(entry => entry.pr === 62).change, 'removal');
+  assert.equal(data.entries.find(entry => entry.pr === 62).documentUrl, 'https://github.com/napplet/naps/blob/old-base/naps/NAP-BLE.md');
+  assert.equal(data.entries.find(entry => entry.pr === 62).markdown, ble);
   assert.ok(client.requested.includes('napplet/naps/ble'));
 });
 

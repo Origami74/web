@@ -1,4 +1,4 @@
-/** Non-normative directory metadata extracted from the living NAP repository. */
+/** Generated source documents and non-normative directory metadata from the living NAP repository. */
 export const NAPS_REPOSITORY = 'https://github.com/napplet/naps';
 const napPath = /(?:^|\/)(NAP-[A-Z0-9]+(?:-[A-Z0-9]+)*)\.md$/;
 
@@ -101,6 +101,7 @@ export function buildProtocolData(input) {
     ...parseNap(file.content, file.path, registry), slug: napId(file.path).toLowerCase(),
     state: 'merged', change: null, pr: null, path: file.path, revision: commit,
     sourceUrl: url(file.path), discussionUrl: null,
+    documentUrl: `${NAPS_REPOSITORY}/blob/${commit}/${file.path}`, markdown: file.content,
   }));
   const mergedIds = new Set(entries.map(entry => entry.id));
   for (const proposal of proposals) {
@@ -114,6 +115,7 @@ export function buildProtocolData(input) {
         path: file.path, revision: proposal.revision,
         sourceUrl: `${NAPS_REPOSITORY}/pull/${proposal.number}/files`,
         discussionUrl: `${NAPS_REPOSITORY}/pull/${proposal.number}`,
+        documentUrl: file.documentUrl ?? `${NAPS_REPOSITORY}/blob/${proposal.revision}/${file.path}`, markdown: file.content,
       });
     }
   }
@@ -121,7 +123,7 @@ export function buildProtocolData(input) {
   entries.sort((a, b) => a.id.localeCompare(b.id) || (a.pr ?? 0) - (b.pr ?? 0));
   if (new Set(entries.map(entry => entry.slug)).size !== entries.length) throw new Error('Duplicate NAP routes in upstream data.');
   return {
-    schemaVersion: 1, checkedAt, repository: NAPS_REPOSITORY, branch, commit, entries,
+    schemaVersion: 2, checkedAt, repository: NAPS_REPOSITORY, branch, commit, entries,
     contribution: {
       readmeUrl: `${NAPS_REPOSITORY}#boundary-rule`, governanceUrl: `${NAPS_REPOSITORY}#governance`,
       templateUrl: url('NAP-WORD-TEMPLATE.md'), contributorUrl: url('AGENTS.md'),

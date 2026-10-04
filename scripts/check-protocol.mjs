@@ -24,6 +24,15 @@ for (const entry of data.entries) {
   assert.equal(document.querySelector('link[rel="canonical"]').getAttribute('href'), `https://napplet.run/${route}/`);
   assert.ok(sitemap.includes(`https://napplet.run/${route}/`), `${route}: sitemap`);
   assert.ok(document.body.textContent.includes('non-normative'), `${route}: authority notice`);
+  const specification = document.querySelector('.spec-body');
+  assert.ok(specification?.textContent.length > entry.description.length, `${route}: full document rendered`);
+  assert.ok(links.includes(entry.documentUrl), `${route}: pinned document source`);
+  const outline = [...document.querySelectorAll('.spec-contents a')];
+  assert.ok(outline.length > 0, `${route}: contents navigation`);
+  for (const link of outline) assert.ok(document.getElementById(link.hash.slice(1)), `${route}: heading ${link.hash}`);
+  for (const code of entry.markdown.matchAll(/^```[^\n]*\n([^]*?)^```/gm)) {
+    assert.ok([...specification.querySelectorAll('pre')].some(pre => pre.textContent.trim() === code[1].trim()), `${route}: complete code example`);
+  }
 }
 const contribution = await documentAt('protocol/contribute');
 assert.ok(contribution.querySelector(`a[href="${data.contribution.templateUrl}"]`));

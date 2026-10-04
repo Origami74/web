@@ -19,6 +19,10 @@ progress:
 
 # Project State
 
+## Quick task 261003-tih — COMPLETE
+
+NAP detail pages now render complete upstream specifications, replacing excerpts and outlines at the user’s request. All 38 documents, source links, code examples, responsive layouts and workspace checks pass. Preview is rebuilt on port 8101; PR #222 contains the correction. Evidence: `.planning/quick/261003-tih-render-complete-upstream-nap-specificati/SUMMARY.md`.
+
 ## Quick task 261003-sof — COMPLETE
 
 Generated protocol directory, per-NAP pages, contribution guide and daily refresh/deploy workflow implemented on `feat/protocol-directory`. Local gates, all 38 routes, responsive/no-JS browser checks, hosted generation and link checks pass. PR #222 is stacked on #221. Evidence: `.planning/quick/261003-sof-generated-protocol-directory-with-nap-de/SUMMARY.md`.
@@ -519,6 +523,7 @@ Full decision log in PROJECT.md Key Decisions table. Recent decisions affecting 
 
 | Quick ID | Task | Date | Commit | Artifacts |
 |----------|------|------|--------|-----------|
+| 261003-tih | Render full upstream specifications on NAP detail pages | 2026-10-03 | PR #222 | [261003-tih-render-complete-upstream-nap-specificati](./quick/261003-tih-render-complete-upstream-nap-specificati/) |
 | 261003-sof | Generated protocol directory, NAP detail pages, contribution guide and daily refresh/deploy | 2026-10-03 | 9d4a1420 | [261003-sof-generated-protocol-directory-with-nap-de](./quick/261003-sof-generated-protocol-directory-with-nap-de/) |
 | 260912-wr8 | Restructure napplet skills for the skills.sh installer (napplet-* names, napplet-ui contract, custom installer removed) | 2026-09-12 | 2d3556c9 | [260912-wr8-restructure-napplet-skills-for-the-skill](./quick/260912-wr8-restructure-napplet-skills-for-the-skill/) |
 | 260904-g1f | Add the MIT license and open a pull request | 2026-09-04 | 7b82fe08 | [260904-g1f-add-the-mit-license-and-open-a-pull-requ](./quick/260904-g1f-add-the-mit-license-and-open-a-pull-requ/) |
