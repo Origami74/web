@@ -7,9 +7,19 @@ export default defineConfig({
   site: 'https://napplet.run',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [svelte(), sitemap()],
+  integrations: [svelte(), sitemap(), {
+    name: 'local-docs',
+    hooks: {
+      'astro:server:setup': ({ server }) => {
+        server.middlewares.use((req, res, next) => {
+          if (!/^\/docs(?:\/|\?|$)/.test(req.url ?? '')) return next();
+          res.writeHead(307, { Location: `http://localhost:5174${req.url}` });
+          res.end();
+        });
+      },
+    },
+  }],
   vite: {
     build: { target: 'es2022' },
-    server: { proxy: { '/docs': { target: 'http://localhost:5174', changeOrigin: true, ws: true } } },
   },
 });
