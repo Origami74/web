@@ -107,7 +107,7 @@ test('data is deterministic and upstream text stays inert', () => {
   assert.throws(() => buildProtocolData({ ...base, merged: [] }), /No merged NAPs/);
 });
 
-function upstream({ truncated = false, moved = false, failed = false } = {}) {
+function upstream({ truncated = false, moved = false, failed = false, removed = false } = {}) {
   const pull = { number: 62, title: 'NAP-BLE: Define portable BLE GATT access', draft: false, updated_at: checkedAt,
     head: { sha: 'ble-head', repo: { full_name: 'contributor/naps' } } };
   const documents = { readme, template, agents, identity, ble };
@@ -126,7 +126,7 @@ function upstream({ truncated = false, moved = false, failed = false } = {}) {
       return { ...pull, state: moved ? 'closed' : 'open' };
     },
     async list(endpoint) {
-      return endpoint.includes('/files') ? [{ filename: 'naps/NAP-BLE.md', sha: 'ble', status: 'added' }] : [pull];
+      return endpoint.includes('/files') ? [{ filename: 'naps/NAP-BLE.md', sha: 'ble', status: removed ? 'removed' : 'added' }] : [pull];
     },
     async blob(repo, sha) {
       requested.push(`${repo}/${sha}`);
@@ -155,6 +155,13 @@ test('paginates past 100 results and fails explicitly on GitHub API errors', asy
   assert.ok(calls[1].includes('&per_page=100&page=2'));
   const denied = githubClient(undefined, async () => ({ ok: false, status: 403 }));
   await assert.rejects(denied.get('napplet/naps'), /GitHub 403/);
+});
+
+test('a removal proposal uses its diff blob even when the file no longer exists on the default branch', async () => {
+  const client = upstream({ removed: true });
+  const data = await collectProtocol(client, checkedAt);
+  assert.equal(data.entries.find(entry => entry.pr === 62).change, 'removal');
+  assert.ok(client.requested.includes('napplet/naps/ble'));
 });
 
 test('failed refresh preserves the last good snapshot; successful refresh atomically replaces it', async t => {

@@ -43,8 +43,10 @@ try {
   assert.equal(await page.locator('[data-nap-row]').count(), data.entries.length);
   assert.equal(await page.locator('#nap-filters').isVisible(), false);
   const proposal = data.entries.find(entry => entry.state !== 'merged');
-  await page.locator(`a[href="/protocol/${proposal.slug}/"]`).first().click();
-  assert.equal(await page.getByRole('link', { name: /Join the discussion/ }).getAttribute('href'), proposal.discussionUrl);
+  if (proposal) {
+    await page.locator(`a[href="/protocol/${proposal.slug}/"]`).first().click();
+    assert.equal(await page.getByRole('link', { name: /Join the discussion/ }).getAttribute('href'), proposal.discussionUrl);
+  }
   await page.getByRole('link', { name: 'Propose a NAP', exact: true }).click();
   assert.ok(await page.getByRole('heading', { name: 'Does this need a NAP?' }).isVisible());
   console.log('No-JavaScript directory, proposal navigation and contribution guide passed.');

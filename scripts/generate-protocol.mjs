@@ -60,9 +60,9 @@ export async function collectProtocol(client, checkedAt = new Date().toISOString
     const changed = (await client.list(`${repository}/pulls/${pull.number}/files`)).filter(file => napId(file.filename));
     const specs = await mapLimited(changed, async file => {
       if (file.status === 'removed') {
-        const original = merged.find(entry => entry.path === file.filename);
-        if (!original) throw new Error(`Cannot resolve proposed removal ${file.filename} in PR #${pull.number}`);
-        return { ...original, status: file.status };
+        // The diff's blob remains available even if the default branch has
+        // already removed or changed the document since this PR was opened.
+        return { path: file.filename, status: file.status, content: await client.blob(repository, file.sha) };
       }
       if (!pull.head.repo) throw new Error(`Missing head repository for PR #${pull.number}`);
       return { path: file.filename, status: file.status, content: await client.blob(pull.head.repo.full_name, file.sha) };
