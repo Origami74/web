@@ -25,10 +25,16 @@ try {
     await page.screenshot({ path: `${screenshots}/${viewport.width}-page.png`, fullPage: true });
     const paths = page.locator('#build .build-path');
     assert.equal(await paths.count(), 2);
-    assert.equal(await page.locator('#build-napplets .tool-row').count(), 4);
-    assert.equal(await page.locator('#runtimes .tool-row').count(), 4);
-    assert.ok(await page.getByRole('link', { name: 'Create a napplet', exact: false }).isVisible());
-    assert.ok(await page.getByRole('link', { name: 'Start a shell', exact: false }).isVisible());
+    assert.equal(await page.locator('#build a').count(), 2);
+    assert.equal(await page.getByRole('link', { name: 'Explore the skills' }).getAttribute('href'), '/docs/guide/agent-skills.html');
+    assert.equal(await page.getByRole('link', { name: 'Kehto on GitHub' }).getAttribute('href'), 'https://github.com/kehto/web');
+    const buildBox = await page.locator('#build').boundingBox();
+    assert.ok(Math.abs(buildBox.height - viewport.height) <= 1, 'develop section fits one viewport');
+    await page.goto(`${base}/#build`, { waitUntil: 'networkidle' });
+    for (const link of await page.locator('#build a').all()) {
+      const box = await link.boundingBox();
+      assert.ok(box.y >= 0 && box.y + box.height <= viewport.height, 'both develop links fit in the viewport after anchor navigation');
+    }
     const appPath = await paths.nth(0).boundingBox();
     const shellPath = await paths.nth(1).boundingBox();
     assert.ok(viewport.width > 760 ? Math.abs(appPath.y - shellPath.y) < 1 : shellPath.y >= appPath.y + appPath.height, 'build paths share a row on desktop and stack on mobile');

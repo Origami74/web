@@ -2,7 +2,7 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Runner from '../components/Runner.astro';
 import Composition from '../components/showcase/Composition.astro';
-import { NAPPLETS, SHELLS, APP_TOOLS, SHELL_TOOLS, LINKS } from '../lib/showcase';
+import { NAPPLETS, SHELLS, LINKS } from '../lib/showcase';
 import '../styles/showcase.css';
 
 const navigation = [
@@ -100,18 +100,19 @@ const navigation = [
 
     <section id="build" class="scene build-scene" aria-labelledby="build-title">
       <div class="section-wrap">
-        <div class="section-heading"><div><p class="eyebrow"><span class="section-number">04 /</span> For builders</p><h2 id="build-title">What will<br /><span>you build?</span></h2></div><p class="section-intro">Make a focused app, or build the place where apps run. Choose your starting point.</p></div>
+        <div class="section-heading"><div><p class="eyebrow"><span class="section-number">04 /</span> For builders</p><h2 id="build-title">Develop<span>.</span></h2></div></div>
         <div class="build-paths">
           <section id="build-napplets" class="build-path" aria-labelledby="build-napplets-title">
-            <header class="build-path-heading"><p class="eyebrow">The apps</p><h3 id="build-napplets-title">Build napplets</h3><p>Turn an idea into a small app. Scaffold a project, connect to shell capabilities, and publish it.</p><a class="button button-primary" href="/docs/packages/cli.html">Create a napplet <span aria-hidden="true">↗</span></a></header>
-            <div class="tool-list">{APP_TOOLS.map(item => <a class="tool-row" href={item.href} data-tool-row><div><p class="card-category">{item.category}</p><h4>{item.name}</h4><p>{item.description}</p></div><span class="tool-arrow" aria-hidden="true">↗</span></a>)}</div>
+            <h3 id="build-napplets-title">Build napplets</h3>
+            <p>Skills for your coding agent to design, build, and verify a napplet.</p>
+            <a class="button button-primary" href="/docs/guide/agent-skills.html">Explore the skills <span aria-hidden="true">↗</span></a>
           </section>
           <section id="runtimes" class="build-path" aria-labelledby="runtimes-title">
-            <header class="build-path-heading"><p class="eyebrow">The home for apps</p><h3 id="runtimes-title">Build shells</h3><p>Create a place for napplets to run. Connect a runtime, your interface, and the services you provide.</p><a class="button button-primary" href="https://kehto.github.io/web/docs/packages/shell.html">Start a shell <span aria-hidden="true">↗</span></a></header>
-            <div class="tool-list">{SHELL_TOOLS.map(item => <a class="tool-row" href={item.href} data-tool-row><div><p class="card-category">{item.category}</p><h4>{item.name}</h4><p>{item.description}</p></div><span class="tool-arrow" aria-hidden="true">↗</span></a>)}</div>
+            <h3 id="runtimes-title">Build shells with Kehto</h3>
+            <p>A runtime, browser integration, service handlers, and permissions for your own shell.</p>
+            <a class="button button-primary" href={LINKS.kehto}>Kehto on GitHub <span aria-hidden="true">↗</span></a>
           </section>
         </div>
-        <div class="closing-line"><p>Something small can<br /><span>start something bigger.</span></p><a class="button button-secondary" href={LINKS.community}>Meet the builders <span aria-hidden="true">↗</span></a></div>
       </div>
     </section>
   </main>

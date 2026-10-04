@@ -523,6 +523,7 @@ Full decision log in PROJECT.md Key Decisions table. Recent decisions affecting 
 
 | Quick ID | Task | Date | Commit | Artifacts |
 |----------|------|------|--------|-----------|
+| 261003-uwf | Simplify Develop to skills and Kehto in one viewport | 2026-10-03 | PR #222 | [261003-uwf-simplify-develop-section-to-napplet-skil](./quick/261003-uwf-simplify-develop-section-to-napplet-skil/) |
 | 261003-ukp | Split final Build section into napplet and shell paths | 2026-10-03 | PR #222 | [261003-ukp-split-final-build-section-into-napplet-a](./quick/261003-ukp-split-final-build-section-into-napplet-a/) |
 | 261003-uii | Sort NAP directory by Merged, Open PR, Draft PR | 2026-10-03 | PR #222 | [261003-uii-sort-nap-directory-by-merged-open-and-dr](./quick/261003-uii-sort-nap-directory-by-merged-open-and-dr/) |
 | 261003-tih | Render full upstream specifications on NAP detail pages | 2026-10-03 | PR #222 | [261003-tih-render-complete-upstream-nap-specificati](./quick/261003-tih-render-complete-upstream-nap-specificati/) |
