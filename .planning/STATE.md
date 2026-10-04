@@ -523,6 +523,7 @@ Full decision log in PROJECT.md Key Decisions table. Recent decisions affecting 
 
 | Quick ID | Task | Date | Commit | Artifacts |
 |----------|------|------|--------|-----------|
+| 261003-ukp | Split final Build section into napplet and shell paths | 2026-10-03 | PR #222 | [261003-ukp-split-final-build-section-into-napplet-a](./quick/261003-ukp-split-final-build-section-into-napplet-a/) |
 | 261003-uii | Sort NAP directory by Merged, Open PR, Draft PR | 2026-10-03 | PR #222 | [261003-uii-sort-nap-directory-by-merged-open-and-dr](./quick/261003-uii-sort-nap-directory-by-merged-open-and-dr/) |
 | 261003-tih | Render full upstream specifications on NAP detail pages | 2026-10-03 | PR #222 | [261003-tih-render-complete-upstream-nap-specificati](./quick/261003-tih-render-complete-upstream-nap-specificati/) |
 | 261003-sof | Generated protocol directory, NAP detail pages, contribution guide and daily refresh/deploy | 2026-10-03 | 9d4a1420 | [261003-sof-generated-protocol-directory-with-nap-de](./quick/261003-sof-generated-protocol-directory-with-nap-de/) |
