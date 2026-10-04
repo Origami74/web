@@ -19,6 +19,26 @@ With `pnpm dev:site` running, run `node scripts/check-site-dev.mjs` to verify al
 
 ## Curate
 
+### Protocol directory
+
+`/protocol/` is a non-normative directory of the living [napplet/naps](https://github.com/napplet/naps) repository. Every merged spec and open NAP proposal has a detail page linking to its GitHub specification or discussion. `/protocol/contribute/` explains which changes belong in a NAP, convention, archetype, or projection, links the contributor rules, and displays the current template headings and governance excerpts.
+
+```bash
+# Refresh upstream data and build all Astro pages, including /protocol/:
+pnpm generate:protocol
+# Refresh only the checked-in metadata snapshot:
+pnpm refresh:protocol
+pnpm test:protocol
+```
+
+Generation uses `GH_TOKEN`, `GITHUB_TOKEN`, or an existing `gh auth` login. Anonymous requests are supported but GitHub's lower rate limit may be insufficient for the full registry. Reads use the current default branch commit and PR file blobs, follow pagination, and validate PR revisions before atomically replacing `src/data/protocol.json`. Failed or incomplete reads leave the last snapshot intact. Regular `pnpm build` uses that snapshot without network access.
+
+Merge state is derived from files on the default branch; PR draft state comes from GitHub. Registry maturity and document markers remain separate because an upstream draft document can already be merged. Open amendments have their own PR-specific routes. Closed PRs disappear on refresh, merged proposals gain canonical detail routes, and the next Astro build recreates the output. Deferred tracks retain an explicit warning. The site stores descriptive metadata, not complete normative specifications, and renders upstream text without HTML execution.
+
+The `Deploy site` workflow refreshes and rebuilds the complete site daily at **05:17 UTC**, on relevant pushes to `main`, and on manual dispatch. A refresh failure stops deployment. Successful main runs upload the assembled site to Bunny and purge its cache; optional nsite publishing follows. No bot commit or write permission on protected main is needed. The `protocol-site` workflow artifact retains the generated snapshot and site for seven days. Manual dispatch with `deploy=false` verifies generation and assembly without publishing; non-main dispatches always skip deployment. GitHub activates cron only after the workflow reaches the default branch.
+
+After assembly, `node scripts/check-protocol.mjs` verifies every detail page, source destination, canonical URL, sitemap entry and the contribution guide. With the assembled site served, `node scripts/check-protocol-browser.mjs http://localhost:8099` checks desktop/mobile filtering and navigation, including without JavaScript. Link-check CI runs both checks.
+
 Edit `src/lib/showcase.ts` to change the selected napplets, shells, and developer tools. Keep names, descriptions, source links, and destinations tied to maintained projects. Editorial descriptions are non-normative; protocol status and requirements defer to the living [NIP-5D proposal](https://github.com/nostr-protocol/nips/pull/2303) and [NAPs track](https://github.com/napplet/naps).
 
 Playable entries point to locally mirrored signed manifests and their original artifact bytes. Preserve the publisher's signature and content hashes when adding or refreshing a selection; editing the downloaded HTML invalidates verification. The player verifies each signed manifest and artifact before execution. Its loader derives from the MIT-licensed [napplet.soy source](https://github.com/zeSchlausKwab/napplet-soy); retain the accompanying attribution when changing that implementation. A curated preview is a limited host for these selections, not a claim that the site implements every NAP.
