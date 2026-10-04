@@ -21,7 +21,7 @@ With `pnpm dev:site` running, run `node scripts/check-site-dev.mjs` to verify al
 
 ### Protocol directory
 
-`/protocol/` is a non-normative directory of the living [napplet/naps](https://github.com/napplet/naps) repository. Every merged spec and open NAP proposal has a detail page rendering the complete upstream specification, with tables, code examples, a linked contents list, and links to the exact GitHub revision and discussion. `/protocol/contribute/` explains which changes belong in a NAP, convention, archetype, or projection, links the contributor rules, and displays the current template headings and governance excerpts.
+`/protocol/` is a non-normative directory of the living [napplet/naps](https://github.com/napplet/naps) repository. Entries appear in Merged, Open PR, then Draft PR order, alphabetically by NAP ID within each group. Every merged spec and open NAP proposal has a detail page rendering the complete upstream specification, with tables, code examples, a linked contents list, and links to the exact GitHub revision and discussion. `/protocol/contribute/` explains which changes belong in a NAP, convention, archetype, or projection, links the contributor rules, and displays the current template headings and governance excerpts.
 
 ```bash
 # Refresh upstream data and build all Astro pages, including /protocol/:
