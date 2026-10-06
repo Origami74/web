@@ -96,6 +96,22 @@ describe('validateManifestEvent — failures', () => {
     expect(v.warnings.some((e) => e.code === 'unknown-required-nap')).toBe(true);
   });
 
+  it.each(['relay.subscribe', 'perm:popups', 'relay storage', 'Relay', 'nap:relay', 'NAP-RELAY'])(
+    'rejects malformed requires value %j as an error, not an advisory',
+    (req) => {
+      const v = validateManifestEvent(event({
+        tags: [
+          ['d', 'demo'],
+          ['path', '/index.html', HASH],
+          ['requires', req],
+        ],
+      }));
+      expect(v.ok).toBe(false);
+      expect(v.errors.map((e) => e.code)).toEqual(['invalid-required-nap']);
+      expect(v.warnings).toEqual([]);
+    },
+  );
+
   it('accepts a manifest whose only unusual requires tag is an unknown domain', () => {
     const v = validateManifestEvent(event({
       tags: [

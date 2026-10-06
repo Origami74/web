@@ -10,6 +10,13 @@
 
 import { NAP_DOMAINS } from '@napplet/core';
 
+/**
+ * Bare NAP domain form: a lowercase identifier such as `relay` or `outbox`.
+ * Prefixed (`nap:relay`, `NAP-RELAY`), dotted, spaced, or otherwise
+ * punctuated values are malformed regardless of whether the domain is known.
+ */
+const BARE_NAP_DOMAIN = /^[a-z][a-z0-9-]*$/;
+
 /** Snapshot napplet manifest event kind. */
 export const NAPPLET_KIND_SNAPSHOT = 5129;
 /** Root napplet manifest event kind. */
@@ -153,7 +160,7 @@ export function validateManifestEvent(event?: NappletManifestEvent | null): Mani
   }
 
   for (const req of requires) {
-    if (req.startsWith('nap:') || req.startsWith('NAP-')) {
+    if (!BARE_NAP_DOMAIN.test(req)) {
       errors.push({
         code: 'invalid-required-nap',
         message: `requires tag "${req}" must be a bare NAP domain such as "relay"`,
